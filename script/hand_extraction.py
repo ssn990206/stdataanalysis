@@ -18,35 +18,54 @@ def extract_punches(data):
         if punch_data == 0:
             lh_transfered = []
             ch_transfered = []
-            for lh, ch in zip(left_hand_data[current_frame + 5:current_frame + 30], chest_data[current_frame + 5:current_frame + 30]):
+            # extract the max punch in data sec 0.2 to sec 2
+            for lh, ch in zip(left_hand_data[current_frame + 8:current_frame + 50], chest_data[current_frame + 8:current_frame + 50]):
                 lh_transfered.append({'x': lh['x'], 'y': lh['y'], 'z': lh['z']})
                 ch_transfered.append({'x': ch['x'], 'y': ch['y'], 'z': ch['z']})
-            max_distance_index = calculate_max_distance_frame(lh_transfered, ch_transfered, "left")
 
-            left_hand_punch = data['lefthand'][current_frame + 5:current_frame + max_distance_index]
-            if len(left_hand_punch) >= 10:
+            # get the longest distance after the transition, it only need to consider x-axis
+            max_distance_index = calculate_max_x_distance_frame(lh_transfered)
+
+            # record the trajectory of each punch
+            left_hand_punch = data['lefthand'][current_frame + 7:current_frame + 7 + max_distance_index]
+
+            # time between max virtual punch and boxer max dis >= 5 frame (=0.2 sec) and <= 23 frame (~= 0.92 sec), meaning the data did not drift  
+            if len(left_hand_punch) >= 5 and len(left_hand_punch) <= 23:
                 left_hand_punches[f"{left_punch_id:02}"] = left_hand_punch
+                left_punch_id += 1
+            # else do not record but still save the punch
+            else:
+                left_hand_punches[f"{left_punch_id:02}"] = []
                 left_punch_id += 1
 
         elif punch_data == 1:
             rh_transfered = []
             ch_transfered = []
-            for rh, ch in zip(right_hand_data[current_frame + 5:current_frame + 30], chest_data[current_frame + 5:current_frame + 30]):
+            # extract the max punch in data sec 0.2 to sec 2
+            for rh, ch in zip(right_hand_data[current_frame + 8:current_frame + 50], chest_data[current_frame + 8:current_frame + 50]):
                 rh_transfered.append({'x': rh['x'], 'y': rh['y'], 'z': rh['z']})
                 ch_transfered.append({'x': ch['x'], 'y': ch['y'], 'z': ch['z']})
-            max_distance_index = calculate_max_distance_frame(rh_transfered, ch_transfered, "right")
+                
+            # get the longest distance after the transition, it only need to consider x-axis
+            max_distance_index = calculate_max_x_distance_frame(rh_transfered)
 
-            right_hand_punch = data['righthand'][current_frame + 5:current_frame + max_distance_index]
-            if len(right_hand_punch) >= 10:
+            # record the trajectory of each punch
+            right_hand_punch = data['righthand'][current_frame + 7:current_frame + 7 + max_distance_index]
+
+            # time between max virtual punch and boxer max dis >= 5 frame (=0.2 sec) and <= 23 frame (~= 0.92 sec), meaning the data did not drift  
+            if len(right_hand_punch) >= 5 and len(right_hand_punch) <= 23:
                 right_hand_punches[f"{right_punch_id:02}"] = right_hand_punch
+                right_punch_id += 1
+            # else do not record but still save the punch
+            else:
+                right_hand_punches[f"{right_punch_id:02}"] = []
                 right_punch_id += 1
         current_frame += 50
         current_punch += 1
-    
 
     return left_hand_punches, right_hand_punches
 
-# 計算最小距離的frame 
+# cal min distance is in which frame 
 def calculate_min_distance_frame(punch_frames, robot_frames, hand):
     min_distance_index = 0
     # initial is infinite
@@ -62,7 +81,7 @@ def calculate_min_distance_frame(punch_frames, robot_frames, hand):
     print(f'{hand} : {min_distance_index}')
     return min_distance_index
 
-# 計算最大距離的frame 
+# cal max distance is in which frame
 def calculate_max_distance_frame(punch_frames, robot_frames, hand):
     max_distance_index = 0
     # initial is negative infinite
@@ -75,5 +94,18 @@ def calculate_max_distance_frame(punch_frames, robot_frames, hand):
             max_distance = distance
             max_distance_index = i
 
-    print(f'{hand} : {max_distance_index}')
+    # print(f'{hand} : {max_distance_index}')
+    return max_distance_index
+
+# cal max "X" distance is in which frame
+def calculate_max_x_distance_frame(punch_frames):
+    max_distance_index = 0
+    # initial is negative infinite
+    max_distance = float('-inf')
+
+    for i, punch_frame in enumerate(punch_frames):
+        if punch_frame['x'] > max_distance:
+            max_distance = punch_frame['x']
+            max_distance_index = i
+    
     return max_distance_index

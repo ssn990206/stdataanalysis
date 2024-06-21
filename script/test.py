@@ -30,12 +30,12 @@ def downsample(data, factor):
     return data[::factor]
 
 # Function to plot the 3D line plot
-def plot_3d_data(data):
+def plot_3d_data(data, file_path):
     fig = sp.make_subplots(
         rows=2, cols=2,
         column_widths=[0.65, 0.35],
         row_heights=[0.55, 0.45],
-        subplot_titles=("3D Visualization", "Body Poistion Information", "Distance Information"),
+        subplot_titles=(f"{file_path}: 3D Visualization", "Body Poistion Information", "Distance Information"),
         specs=[[{'type': 'scatter3d', "rowspan": 2}, {'type': 'table'}],
                 [            None                    , {"type": "table"}]]
     )
@@ -55,12 +55,12 @@ def plot_3d_data(data):
 
     stats = []
     add_trace('chest', 'red', data['chest'])
-    add_trace('Right Hand', 'orange', data['righthand'])
-    add_trace('Left Hand', 'yellow', data['lefthand'])
-    add_trace('Right Shoulder', 'green', data['rightshoulder'])
-    add_trace('Left Shoulder', 'blue', data['leftshoulder'])
-    add_trace('Right Leg', 'purple', data['rightleg'])
-    add_trace('Left Leg', 'gray', data['leftleg'])
+    add_trace('Right Hand', 'green', data['righthand'])
+    add_trace('Left Hand', 'blue', data['lefthand'])
+    # add_trace('Right Shoulder', 'orange', data['rightshoulder'])
+    # add_trace('Left Shoulder', 'yellow', data['leftshoulder'])
+    # add_trace('Right Leg', 'purple', data['rightleg'])
+    # add_trace('Left Leg', 'gray', data['leftleg'])
     add_trace('Moving Robot', 'brown', data['movingrobot'])
 
     # Prepare table data for the statistics
@@ -145,17 +145,17 @@ def write_visualization(path):
     file_path = path
     data = read_json(file_path)
 
-    downsample_factor = 10
-    data['chest'] = downsample(data['chest'], downsample_factor)
-    data['righthand'] = downsample(data['righthand'], downsample_factor)
-    data['lefthand'] = downsample(data['lefthand'], downsample_factor)
-    data['rightshoulder'] = downsample(data['rightshoulder'], downsample_factor)
-    data['leftshoulder'] = downsample(data['leftshoulder'], downsample_factor)
-    data['rightleg'] = downsample(data['rightleg'], downsample_factor)
-    data['leftleg'] = downsample(data['leftleg'], downsample_factor)
-    data['movingrobot'] = downsample(data['movingrobot'], downsample_factor)
+    # downsample_factor = 10
+    # data['chest'] = downsample(data['chest'], downsample_factor)
+    # data['righthand'] = downsample(data['righthand'], downsample_factor)
+    # data['lefthand'] = downsample(data['lefthand'], downsample_factor)
+    # data['rightshoulder'] = downsample(data['rightshoulder'], downsample_factor)
+    # data['leftshoulder'] = downsample(data['leftshoulder'], downsample_factor)
+    # data['rightleg'] = downsample(data['rightleg'], downsample_factor)
+    # data['leftleg'] = downsample(data['leftleg'], downsample_factor)
+    # data['movingrobot'] = downsample(data['movingrobot'], downsample_factor)
 
-    plot_3d_data(data)
+    plot_3d_data(data, file_path)
 
 
 # Example usage
@@ -170,10 +170,10 @@ if __name__ == '__main__':
     data['chest'] = downsample(data['chest'], downsample_factor)
     data['righthand'] = downsample(data['righthand'], downsample_factor)
     data['lefthand'] = downsample(data['lefthand'], downsample_factor)
-    data['rightshoulder'] = downsample(data['rightshoulder'], downsample_factor)
-    data['leftshoulder'] = downsample(data['leftshoulder'], downsample_factor)
-    data['rightleg'] = downsample(data['rightleg'], downsample_factor)
-    data['leftleg'] = downsample(data['leftleg'], downsample_factor)
+    # data['rightshoulder'] = downsample(data['rightshoulder'], downsample_factor)
+    # data['leftshoulder'] = downsample(data['leftshoulder'], downsample_factor)
+    # data['rightleg'] = downsample(data['rightleg'], downsample_factor)
+    # data['leftleg'] = downsample(data['leftleg'], downsample_factor)
     data['movingrobot'] = downsample(data['movingrobot'], downsample_factor)
 
     plot_3d_data(data)

@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-# THIS IS FOR DATA COLLECTION FROM RAW DATA FROM AFTER
-
+# THIS IS FOR DATA COLLECTION FROM RAW DATA
 
 def read_json():
     file_name = input()

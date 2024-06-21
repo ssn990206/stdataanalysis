@@ -9,9 +9,9 @@ from script.test import write_visualization
 
 def main():
     # input file number
-    filenum = input()
+    filenum = input('file_num: ')
     # input data RH, LH, RSH, LSH, CH, RL, LL, MR (A, B, C, D, E, F, G, H)
-    RH, LH, RSH, LSH, CH, RL, LL, MR, avatarPunchData = get_input_coordinates(f'data/user_5_{filenum}.json')
+    RH, LH, RSH, LSH, CH, RL, LL, MR, avatarPunchData = get_input_coordinates(f'data/user_8_{filenum}.json')
 
 # Transition Matrix
     # transform matrix
@@ -31,10 +31,10 @@ def main():
         'chest': chest_translated,
         'righthand': righthand_rotated,
         'lefthand': lefthand_rotated,
-        'rightshoulder': rightshoulder_rotated,
-        'leftshoulder': leftshoulder_rotated,
-        'rightleg': rightleg_rotated,
-        'leftleg': leftleg_rotated,
+        # 'rightshoulder': rightshoulder_rotated,
+        # 'leftshoulder': leftshoulder_rotated,
+        # 'rightleg': rightleg_rotated,
+        # 'leftleg': leftleg_rotated,
         'movingrobot': movingrobot_rotated,
         'chestDistanceAverage': chest_distance_average,
         'chestDistanceStd': chest_distance_std,
@@ -56,11 +56,14 @@ def main():
     
 
 # write json
-    with open(f'data/transformed_data_5{filenum}.json', 'w') as outfile:
+    with open(f'data/transformed_data_8{filenum}.json', 'w') as outfile:
         json.dump(result, outfile, indent=4)
 
 # run visualization
-    write_visualization(f'data/transformed_data_5{filenum}.json')
+    write_visualization(f'data/transformed_data_8{filenum}.json')
 
 if __name__ == "__main__":
     main()
+
+
+# 8_4 no haptic, 8_5 with haptic

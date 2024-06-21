@@ -33,7 +33,7 @@ def get_data(data, index):
             positions = tracker['TrackerPositions']
             result = []
             for pos in positions:
-                if (pos['z'] <= -50 or pos['y'] <= -50 or pos['z'] <= -50) and pre_position['z'] is not None:
+                if (pos['z'] == 0 or pos['y'] == 0 or pos['z'] == 0) and pre_position['z'] is not None:
                     result.append(pre_position)
                 else:
                     current_position = {'x': pos['x'],'y': pos['z'],'z': pos['y']}
