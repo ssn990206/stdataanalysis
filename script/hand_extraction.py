@@ -30,11 +30,13 @@ def extract_punches(data):
             left_hand_punch = data['lefthand'][current_frame + 7:current_frame + 7 + max_distance_index]
 
             # time between max virtual punch and boxer max dis >= 5 frame (=0.2 sec) and <= 23 frame (~= 0.92 sec), meaning the data did not drift  
-            if len(left_hand_punch) >= 5 and len(left_hand_punch) <= 23:
+            if len(left_hand_punch) >= 5 and len(left_hand_punch) <= 25:
+                # print(len(left_hand_punch))
                 left_hand_punches[f"{left_punch_id:02}"] = left_hand_punch
                 left_punch_id += 1
             # else do not record but still save the punch
             else:
+                print(f"{len(left_hand_punch)}")
                 left_hand_punches[f"{left_punch_id:02}"] = []
                 left_punch_id += 1
 
@@ -53,11 +55,13 @@ def extract_punches(data):
             right_hand_punch = data['righthand'][current_frame + 7:current_frame + 7 + max_distance_index]
 
             # time between max virtual punch and boxer max dis >= 5 frame (=0.2 sec) and <= 23 frame (~= 0.92 sec), meaning the data did not drift  
-            if len(right_hand_punch) >= 5 and len(right_hand_punch) <= 23:
+            if len(right_hand_punch) >= 5 and len(right_hand_punch) <= 25:
+                # print(len(right_hand_punch))
                 right_hand_punches[f"{right_punch_id:02}"] = right_hand_punch
                 right_punch_id += 1
             # else do not record but still save the punch
             else:
+                print(f"{len(right_hand_punch)}")
                 right_hand_punches[f"{right_punch_id:02}"] = []
                 right_punch_id += 1
         current_frame += 50

@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 # extract each punch
 
 # Load data from JSON file
-with open('data/transformed_data_85.json') as file:
+with open('data/transformed_data_86.json') as file:
     data = json.load(file)
 
 # Initialize figure
