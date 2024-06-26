@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 # extract each punch to max distance
 
 # Load data from JSON file
-with open('data/transformed_data_93.json') as file:
+with open('data/transformed_data_911.json') as file:
     data = json.load(file)
 
 # Extract left and right hand punch data
